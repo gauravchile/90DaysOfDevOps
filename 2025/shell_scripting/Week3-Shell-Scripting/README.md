@@ -22,7 +22,7 @@ A script that allows you to manage user accounts from the command line using opt
 ```bash
 ./user_management.sh [option]
 
-
+---
 ### Options
 
 | Option | Description |
