@@ -1,4 +1,3 @@
-
 #!/usr/bin/env bash
 set -e
 
@@ -33,8 +32,31 @@ log "==== Starting GitHub Push for '${PROJECT}' ===="
 
 if ! command -v gh >/dev/null 2>&1; then
     warn "[*] GitHub CLI not found. Installing..."
-    sudo apt update -y && sudo apt install -y gh || sudo snap install gh
+
+    if [ -f /etc/debian_version ]; then
+        # Debian/Ubuntu
+        sudo apt update -y && sudo apt install -y gh || (
+            type snap >/dev/null 2>&1 && sudo snap install gh --classic
+        )
+    elif [ -f /etc/redhat-release ]; then
+        # RHEL/CentOS/Fedora
+        sudo dnf install -y gh || sudo yum install -y gh
+    elif [ -f /etc/arch-release ]; then
+        # Arch Linux / Manjaro
+        sudo pacman -Sy --noconfirm github-cli
+    elif command -v brew >/dev/null 2>&1; then
+        # macOS or Linux with Homebrew
+        brew install gh
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "🧰 Please install Homebrew first: https://brew.sh"
+        exit 1
+    else
+        warn "⚠️ Unsupported OS. Please install GitHub CLI manually:"
+        echo "   https://github.com/cli/cli#installation"
+        exit 1
+    fi
 fi
+
 
 if ! gh auth status >/dev/null 2>&1; then
     log "[*] GitHub login required..."
@@ -126,7 +148,7 @@ fi
 
 git checkout -B "$BRANCH"
 
-git add "$DIR"
+git add -- "$DIR"
 if git diff --cached --quiet; then
     warn "[!] Nothing to commit."
 else
@@ -145,9 +167,15 @@ else
     git remote add origin "$REMOTE_URL"
 fi
 
+read -rp "Should the repository be public or private? (default: public): " VISIBILITY
+VISIBILITY="${VISIBILITY,,}"  # lowercase
+if [[ "$VISIBILITY" != "private" && "$VISIBILITY" != "public" ]]; then
+    VISIBILITY="public"
+fi
+
 if ! gh repo view "$USERNAME/$PROJECT" >/dev/null 2>&1; then
     log "[*] Creating GitHub repo..."
-    gh repo create "$USERNAME/$PROJECT" --public --source=. --remote=origin
+    gh repo create "$USERNAME/$PROJECT" --"$VISIBILITY" --source=. --remote=origin
 fi
 
 
