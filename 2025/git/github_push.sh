@@ -11,7 +11,7 @@ USERNAME="$2"
 COMMIT="$3"
 DIR="${4:-.}"
 
-read -p "Enter branch name (default: main): " BRANCH
+read -e -p "Enter branch name (default: main): " BRANCH
 BRANCH="${BRANCH:-main}"
 
 GH_TOKEN="ghp_***token***"
@@ -167,7 +167,7 @@ else
     git remote add origin "$REMOTE_URL"
 fi
 
-read -rp "Should the repository be public or private? (default: public): " VISIBILITY
+read -e -p "Should the repository be public or private? (default: public): " VISIBILITY
 VISIBILITY="${VISIBILITY,,}"  # lowercase
 if [[ "$VISIBILITY" != "private" && "$VISIBILITY" != "public" ]]; then
     VISIBILITY="public"
