@@ -1,4 +1,4 @@
-# Week 7 : Kubernetes Basics & Advanced Challenges
+# Week 6 : Kubernetes Basics & Advanced Challenges
 
 This set of tasks is designed as part of the 90DaysOfDevOps challenge to simulate real-world scenarios you might encounter on the job or in technical interviews. By completing these tasks on the [SpringBoot BankApp](https://github.com/Amitabh-DevOps/Springboot-BankApp), you'll gain practical experience with advanced Kubernetes topics, including architecture, core objects, networking, storage management, configuration, autoscaling, security & access control, job scheduling, and bonus topics like Helm, Service Mesh, or AWS EKS.
 
