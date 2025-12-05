@@ -1,4 +1,4 @@
-# Week 6 : Jenkins ( CI/CD ) Basics and Advanced real world challenge  
+# Week 7 : Jenkins ( CI/CD ) Basics and Advanced real world challenge  
 
 This set of tasks is designed as part of the 90DaysOfDevOps challenge to simulate real-world scenarios you might encounter on the job or in technical interviews. By completing these tasks, you'll gain practical experience with advanced Jenkins topics, including pipelines, distributed agents, RBAC, shared libraries, vulnerability scanning, and automated notifications.
 
