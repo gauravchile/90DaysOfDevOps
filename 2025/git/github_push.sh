@@ -14,7 +14,7 @@ DIR="${4:-.}"
 read -e -p "Enter branch name (default: main): " BRANCH
 BRANCH="${BRANCH:-main}"
 
-GH_TOKEN="ghp_***token***"
+GH_TOKEN="<your_github_token_here>"
 
 LOGFILE="/tmp/${PROJECT}_gitpush.log"
 
