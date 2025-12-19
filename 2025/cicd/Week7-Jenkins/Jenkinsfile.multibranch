@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'docker build -t sample-app:${BRANCH_NAME} .'
+            }
+        }
+
+        stage('Tests') {
+            parallel {
+                stage('Unit Tests') {
+                    steps {
+                        sh 'echo "Running unit tests"'
+                    }
+                }
+                stage('Integration Tests') {
+                    steps {
+                        sh 'echo "Running integration tests"'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                branch 'main'
+            }
+            steps {
+                sh 'echo "Deploying from main branch"'
+            }
+        }
+    }
+}
